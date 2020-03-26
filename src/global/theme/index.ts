@@ -40,7 +40,7 @@ export const ThemeLight = createMuiTheme({
 export const ThemeDark = createMuiTheme({
     palette: {
         primary: {
-            main: colors.primary,
+            main: '#c52b16',
         },
         secondary: {
             main: colors.secundary
