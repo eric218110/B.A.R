@@ -1,11 +1,19 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const TollBarStyledContainer = styled.div`
   display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
-export const TollBarStyled = styled.div`
-  font-size: 200px;
-  justify-content: space-around;
+export const TollBarStyledItems = styled.div`
+  justify-items: center;
+`;
 
+export const ToolbarText = styled.p`
+  font-size: 20px;
+  color: #fff;
+  margin-top: 10px;
+  text-transform: uppercase;
 `;

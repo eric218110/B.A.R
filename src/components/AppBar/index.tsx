@@ -4,12 +4,16 @@ import {
   Toolbar,
   useScrollTrigger,
   Slide,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Switch
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText
 } from "@material-ui/core";
-import { TollBarStyled, TollBarStyledContainer } from "./styles";
+import { GitHub, Brightness4, Brightness5, Menu } from "@material-ui/icons";
+import { red } from "@material-ui/core/colors";
+import { TollBarStyledContainer, TollBarStyledItems } from "./styles";
+
+const color = red[50];
 
 interface IAppBarProps {}
 
@@ -29,21 +33,32 @@ export const AppBarComponent: React.FC<IAppBarProps> = props => {
     <React.Fragment>
       <HideOnScroll {...props}>
         <AppBar>
-          <TollBarStyledContainer>
-            <Toolbar variant="dense">
-              <TollBarStyled>
-                <Typography>Eric Silva</Typography>
-              </TollBarStyled>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch size="small" checked={true} onChange={() => {}} />
-                  }
-                  label="Small"
-                />
-              </FormGroup>
-            </Toolbar>
-          </TollBarStyledContainer>
+          <Toolbar variant="dense">
+            <TollBarStyledContainer>
+              <TollBarStyledItems>
+                <ListItem dense>
+                  <ListItemIcon>
+                    <IconButton>
+                      <Menu style={{ color }} fontSize={"small"} />
+                    </IconButton>
+                  </ListItemIcon>
+                  <ListItemText primary="Template" />
+                </ListItem>
+              </TollBarStyledItems>
+              <TollBarStyledItems>
+                <IconButton>
+                  <GitHub style={{ color }} fontSize={"small"} />
+                </IconButton>
+                <IconButton>
+                  {true ? (
+                    <Brightness4 style={{ color }} />
+                  ) : (
+                    <Brightness5 style={{ color }} />
+                  )}
+                </IconButton>
+              </TollBarStyledItems>
+            </TollBarStyledContainer>
+          </Toolbar>
         </AppBar>
       </HideOnScroll>
     </React.Fragment>
