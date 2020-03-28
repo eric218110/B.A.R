@@ -1,6 +1,5 @@
 import * as React from "react";
-import { ThemeProvider, ThemeOptions } from "@material-ui/core";
-import { Routes } from "../routes";
+import { ThemeProvider, ThemeOptions, Button } from "@material-ui/core";
 import { ThemeLight, ThemeDark } from "../global/theme";
 import { GlobalStyle } from "../global/styles";
 import { ThemeState } from "../store/theme/theme.types";
@@ -14,24 +13,28 @@ interface CoreProps {
   theme: ThemeState;
 }
 
-function getTheme(): ThemeOptions {
-  return true ? ThemeLight : ThemeDark;
+function getTheme(theme: THEME): ThemeOptions {
+  console.log(theme);
+  return (theme === THEME.LIGTH) ? ThemeDark : ThemeLight;
+
 }
 
 class Core extends React.Component<CoreProps> {
-  componentDidMount() {
-    this.props.updateTheme({
-      currentTheme: THEME.DARK,
-      id: Math.random()
-    });
-  }
+    render() {
 
-  render() {
+    const { theme } = this.props;
+
     return (
       <React.Fragment>
         <GlobalStyle />
-        <ThemeProvider theme={getTheme()}>
-          <Routes />
+        <ThemeProvider theme={getTheme(theme.currentTheme)}>
+          {/* <Routes /> */}
+          <button onClick={() => {
+            this.props.updateTheme(theme)
+          }}>{theme.currentTheme}</button>
+          <h6>currentTheme: {theme.currentTheme}</h6>
+          <hr></hr>
+          <Button variant='outlined' color='primary'>button</Button>
         </ThemeProvider>
       </React.Fragment>
     );
