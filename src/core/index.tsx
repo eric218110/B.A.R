@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ThemeState } from "../store/theme/theme.types";
 import { ApplicationState } from "../store";
+import { updateTheme } from '../store/theme/theme.action';
 import { connect } from "react-redux";
 import {
   Card, CardContent,
@@ -11,28 +12,30 @@ import {
   createMuiTheme,
   MuiThemeProvider
 } from "@material-ui/core";
-import { purple, grey } from '@material-ui/core/colors'
+import { ThemeLight, ThemeDark } from "../global/theme";
 
 interface CoreProps {
+  updateTheme: typeof updateTheme;
   theme: ThemeState;
 }
 
-const Core: React.FC<CoreProps> = ({ theme }) => {
+const Core: React.FC<CoreProps> = ({ theme, updateTheme }) => {
 
-  const [currenteTheme, setCurrentTheme] = React.useState(createMuiTheme(
-    {
-      palette: {
-        type: "light",
-        primary: {
-          main: purple[500]
-        }
-      }
+  function createThemeProvider() {
+    let currenteTheme: ThemeOptions
+
+    if (theme.darkMode) {
+      currenteTheme = ThemeLight
+    } else {
+      currenteTheme = ThemeDark
     }
-  ))
+
+    return createMuiTheme(currenteTheme);
+  }
 
   return (
     <React.Fragment>
-      <MuiThemeProvider theme={currenteTheme}>
+      <MuiThemeProvider theme={createThemeProvider()}>
         <Card elevation={8}>
           <CardContent>
             <Typography>
@@ -42,25 +45,10 @@ const Core: React.FC<CoreProps> = ({ theme }) => {
           <CardActions>
             <Button variant={'contained'} color={'primary'} size={'large'}
               onClick={() => {
-                (currenteTheme.palette.type === 'light')
-                  ? setCurrentTheme(createMuiTheme({
-                    palette: {
-                      type: "dark",
-                      primary: {
-                        main: purple[500]
-                      }
-                    }
-                  }))
-                  : setCurrentTheme(createMuiTheme({
-                    palette: {
-                      type: "light",
-                      primary: {
-                        main: grey[500]
-                      }
-                    }
-                  }))
+                updateTheme({ darkMode: theme.darkMode })
+                console.log(theme)
               }}
-            >{`Theme: ${currenteTheme.palette.type}`}</Button>
+            >{`Theme: ${(theme.darkMode) ? 'LIGTH' : 'DARK'}`}</Button>
           </CardActions>
         </Card>
       </MuiThemeProvider>
@@ -72,4 +60,4 @@ const MapStateToProps = (state: ApplicationState) => ({
   theme: state.theme
 });
 
-export default connect(MapStateToProps)(Core);
+export default connect(MapStateToProps, { updateTheme })(Core);

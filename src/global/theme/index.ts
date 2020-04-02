@@ -16,6 +16,7 @@ const colors = {
 
 export const ThemeLight = createMuiTheme({
     palette: {
+        type: 'light',
         primary: {
             main: colors.primary,
         },
@@ -39,6 +40,7 @@ export const ThemeLight = createMuiTheme({
 
 export const ThemeDark = createMuiTheme({
     palette: {
+        type: 'dark',
         primary: {
             main: '#c52b16',
         },

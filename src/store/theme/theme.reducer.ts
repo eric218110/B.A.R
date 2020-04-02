@@ -1,23 +1,18 @@
-import { UPDATE_THEME, ThemeState, ThemeActionTypes } from "./theme.types";
-import { THEME } from "./theme.enum";
+import { TOGGLE_THEME, ThemeState, ThemeActionTypes } from "./theme.types";
 
 const initialState: ThemeState = {
-    currentTheme: THEME.LIGTH,
-    id: Math.random(),
+    darkMode: false
 };
 
 export function themeReducer(state = initialState, action: ThemeActionTypes): ThemeState {
-    switch (action.type) {
-        case UPDATE_THEME: {
-            action.payload.currentTheme = (action.payload.currentTheme === THEME.LIGTH) 
-                ? THEME.DARK
-                : THEME.LIGTH
-            }
-            return {
-                ...state,
-                ...action.payload
-            };
-        default:
-            return state;
+    if(action.type === TOGGLE_THEME){
+        const { darkMode } = action.payload;
+        action.payload.darkMode = !darkMode;
+
+        return {
+            ...state,
+            ...action.payload
+        }
     }
+    return state;
 }

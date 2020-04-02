@@ -1,8 +1,8 @@
-import { ThemeState, UPDATE_THEME } from "./theme.types";
+import { ThemeState, TOGGLE_THEME } from "./theme.types";
 
-export function updateTheme(newTheme: ThemeState) {
+export function updateTheme(theme: ThemeState) {
     return {
-        type: UPDATE_THEME,
-        payload: newTheme
+        type: TOGGLE_THEME,
+        payload: theme
     };
 }
