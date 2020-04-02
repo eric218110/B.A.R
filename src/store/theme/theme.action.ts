@@ -1,8 +1,13 @@
-import { ThemeState, UPDATE_THEME } from "./theme.types";
+import {
+    TOGGLE_THEME,
+    ToggleThemeActionTypes
 
-export function updateTheme(newTheme: ThemeState) {
+} from "./theme.types";
+
+export function toggle_theme(dark: boolean): ToggleThemeActionTypes {
+    const darkMode = !dark;
     return {
-        type: UPDATE_THEME,
-        payload: newTheme
-    };
+        type: TOGGLE_THEME,
+        payload: { darkMode }
+    }
 }

@@ -1,48 +1,51 @@
 import * as React from "react";
-import { ThemeProvider, ThemeOptions, Button } from "@material-ui/core";
-import { ThemeLight, ThemeDark } from "../global/theme";
-import { GlobalStyle } from "../global/styles";
 import { ThemeState } from "../store/theme/theme.types";
-import { updateTheme } from "../store/theme/theme.action";
+import { toggle_theme } from "../store/theme/theme.action";
 import { ApplicationState } from "../store";
 import { connect } from "react-redux";
-import { THEME } from "../store/theme/theme.enum";
-
-interface CoreProps {
-  updateTheme: typeof updateTheme;
+import { ThemeDark, ThemeLight } from "../global/theme";
+import {
+  ThemeOptions,
+  createMuiTheme,
+  MuiThemeProvider,
+  Button
+} from "@material-ui/core";
+interface ICoreProps {
+  toggle_theme: typeof toggle_theme;
   theme: ThemeState;
 }
 
-function getTheme(theme: THEME): ThemeOptions {
-  console.log(theme);
-  return (theme === THEME.LIGTH) ? ThemeDark : ThemeLight;
-
-}
-
-class Core extends React.Component<CoreProps> {
-    render() {
-
-    const { theme } = this.props;
-
-    return (
-      <React.Fragment>
-        <GlobalStyle />
-        <ThemeProvider theme={getTheme(theme.currentTheme)}>
-          {/* <Routes /> */}
-          <button onClick={() => {
-            this.props.updateTheme(theme)
-          }}>{theme.currentTheme}</button>
-          <h6>currentTheme: {theme.currentTheme}</h6>
-          <hr></hr>
-          <Button variant='outlined' color='primary'>button</Button>
-        </ThemeProvider>
-      </React.Fragment>
-    );
+const CoreApplication: React.FC<ICoreProps> = (props: ICoreProps) => {
+  function getThemeProvider(): ThemeOptions {
+    let currentTheme: ThemeOptions;
+    const { darkMode } = props.theme;
+    if (darkMode) {
+      currentTheme = ThemeDark;
+    } else {
+      currentTheme = ThemeLight;
+    }
+    return createMuiTheme(currentTheme);
   }
-}
 
-const MapStateToProps = (state: ApplicationState) => ({
+  return (
+    <React.Fragment>
+      <MuiThemeProvider theme={getThemeProvider()}>
+        <Button
+          variant={"contained"}
+          color={"primary"}
+          onClick={() => {
+            toggle_theme(props.theme.darkMode);
+          }}
+        >
+          {props.theme.darkMode ? "DARK" : "LIGHT"}
+        </Button>
+      </MuiThemeProvider>
+    </React.Fragment>
+  );
+};
+
+const MapStateToPros = (state: ApplicationState) => ({
   theme: state.theme
 });
 
-export default connect(MapStateToProps, { updateTheme })(Core);
+export default connect(MapStateToPros, { toggle_theme })(CoreApplication);
