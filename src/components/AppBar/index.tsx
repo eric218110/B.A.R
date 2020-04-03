@@ -12,10 +12,17 @@ import {
 import { GitHub, Brightness4, Brightness5, Menu } from "@material-ui/icons";
 import { red } from "@material-ui/core/colors";
 import { TollBarStyledContainer, TollBarStyledItems } from "./styles";
+import { updateTheme } from "../../store/theme/theme.action";
+import { ThemeState } from "../../store/theme/theme.types";
+import { ApplicationState } from "../../store";
+import { connect } from "react-redux";
 
 const color = red[50];
 
-interface IAppBarProps {}
+interface IAppBarProps {
+  updateTheme: typeof updateTheme;
+  theme: ThemeState
+}
 
 function HideOnScroll(props: any) {
   const { children, window } = props;
@@ -28,7 +35,7 @@ function HideOnScroll(props: any) {
   );
 }
 
-export const AppBarComponent: React.FC<IAppBarProps> = props => {
+const AppBarComponent: React.FC<IAppBarProps> = props => {
   return (
     <React.Fragment>
       <HideOnScroll {...props}>
@@ -49,18 +56,26 @@ export const AppBarComponent: React.FC<IAppBarProps> = props => {
                 <IconButton>
                   <GitHub style={{ color }} fontSize={"small"} />
                 </IconButton>
-                <IconButton>
-                  {true ? (
+                <IconButton onClick={() => {
+                  props.updateTheme({ darkMode: props.theme.darkMode })
+                }}>
+                  {props.theme.darkMode ? (
                     <Brightness4 style={{ color }} />
                   ) : (
-                    <Brightness5 style={{ color }} />
-                  )}
+                      <Brightness5 style={{ color }} />
+                    )}
                 </IconButton>
               </TollBarStyledItems>
             </TollBarStyledContainer>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
+
+const MapStateToProps = (state: ApplicationState) => ({
+  theme: state.theme
+})
+
+export default connect(MapStateToProps, { updateTheme })(AppBarComponent);
