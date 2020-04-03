@@ -1,17 +1,12 @@
-import {
-    ThemeState,
-    ToggleThemeActionTypes,
-    TOGGLE_THEME
-} from "./theme.types";
+import { TOGGLE_THEME, ThemeState, ThemeActionTypes } from "./theme.types";
 
 const initialState: ThemeState = {
-    darkMode: false,
+    darkMode: false
 };
 
-export function themeReducer(state = initialState, action: ToggleThemeActionTypes): ThemeState {
-    console.log(action)
+export function themeReducer(state = initialState, action: ThemeActionTypes): ThemeState {
     if (action.type === TOGGLE_THEME) {
-        const { darkMode } = action.payload
+        const { darkMode } = action.payload;
         action.payload.darkMode = !darkMode;
 
         return {

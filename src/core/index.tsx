@@ -1,51 +1,45 @@
 import * as React from "react";
 import { ThemeState } from "../store/theme/theme.types";
-import { toggle_theme } from "../store/theme/theme.action";
 import { ApplicationState } from "../store";
 import { connect } from "react-redux";
-import { ThemeDark, ThemeLight } from "../global/theme";
 import {
   ThemeOptions,
   createMuiTheme,
-  MuiThemeProvider,
-  Button
+  MuiThemeProvider
 } from "@material-ui/core";
-interface ICoreProps {
-  toggle_theme: typeof toggle_theme;
+import { ThemeLight, ThemeDark } from "../global/theme";
+import { GlobalStyle } from "../global/styles";
+import { Routes } from "../routes";
+
+interface CoreProps {
   theme: ThemeState;
 }
 
-const CoreApplication: React.FC<ICoreProps> = (props: ICoreProps) => {
-  function getThemeProvider(): ThemeOptions {
-    let currentTheme: ThemeOptions;
-    const { darkMode } = props.theme;
-    if (darkMode) {
-      currentTheme = ThemeDark;
+const Core: React.FC<CoreProps> = ({ theme }) => {
+  function createThemeProvider() {
+    let currenteTheme: ThemeOptions;
+
+    if (theme.darkMode) {
+      currenteTheme = ThemeDark;
     } else {
-      currentTheme = ThemeLight;
+      currenteTheme = ThemeLight;
     }
-    return createMuiTheme(currentTheme);
+
+    return createMuiTheme(currenteTheme);
   }
 
   return (
     <React.Fragment>
-      <MuiThemeProvider theme={getThemeProvider()}>
-        <Button
-          variant={"contained"}
-          color={"primary"}
-          onClick={() => {
-            toggle_theme(props.theme.darkMode);
-          }}
-        >
-          {props.theme.darkMode ? "DARK" : "LIGHT"}
-        </Button>
+      <GlobalStyle />
+      <MuiThemeProvider theme={createThemeProvider()}>
+        <Routes />
       </MuiThemeProvider>
     </React.Fragment>
   );
 };
 
-const MapStateToPros = (state: ApplicationState) => ({
+const MapStateToProps = (state: ApplicationState) => ({
   theme: state.theme
 });
 
-export default connect(MapStateToPros, { toggle_theme })(CoreApplication);
+export default connect(MapStateToProps)(Core);
