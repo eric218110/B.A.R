@@ -3,7 +3,7 @@ export interface ThemeState {
 }
 
 // Describing the different ACTION NAMES available
-export const TOGGLE_THEME = "@REDUX/THEME/TOGGLE_THEME";
+export const TOGGLE_THEME = "@@REDUX/THEME/TOGGLE_THEME";
 
 interface ToggleThemeAction {
     type: typeof TOGGLE_THEME;

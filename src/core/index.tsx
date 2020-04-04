@@ -39,7 +39,7 @@ const Core: React.FC<CoreProps> = ({ theme }) => {
 };
 
 const MapStateToProps = (state: ApplicationState) => ({
-  theme: state.theme
+  theme: state.theme,
 });
 
 export default connect(MapStateToProps)(Core);
